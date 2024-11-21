@@ -1,17 +1,16 @@
 import yadisk
 
 from services.utils.get_storage_token import get_storage_token_ydisk
-from schemas.list_dir_scheme import FileItem, ListFiles
-from schemas.list_dir_scheme import ListFilesQuery
+from schemes.list_dir_scheme import FileItem, ListFiles
+from schemes.list_dir_scheme import ListFilesQuery
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import text
 
 async def get_listdir(list_dir_scheme: ListFilesQuery, 
                       db: AsyncSession):
     
-    token = await get_storage_token_ydisk(token=list_dir_scheme.token.access_token,
-                                          storage_name=list_dir_scheme.storage_name,
+    token = await get_storage_token_ydisk(token=list_dir_scheme.user_settings.access_token,
+                                          storage_name=list_dir_scheme.user_settings.storage_name,
                                           db=db)
     y = yadisk.AsyncClient(token=token)
 

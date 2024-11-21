@@ -9,8 +9,9 @@ from services.listdir import get_listdir
 from services.remove import remove_file
 from services.rename import rename_file
 
-from schemas.list_dir_scheme import ListFilesQuery
-from schemas.rename_schema import RenameQuery
+from schemes.list_dir_scheme import ListFilesQuery
+from schemes.rename_scheme import RenameQuery
+from schemes.remove_scheme import RemoveQuery
 
 
 router = APIRouter(
@@ -31,11 +32,13 @@ async def listdir(list_dir_scheme: ListFilesQuery,
                              db)
 
 @router.delete("/delete")
-async def remove(path: str):
-    return await remove_file(path)
+async def remove(remove_scheme:RemoveQuery, 
+                 db: db_dependency):
+    return await remove_file(remove_scheme,
+                             db)
 
 @router.put("/rename")
-async def rename(rename_schema: RenameQuery,
-                      db: db_dependency):
-    return await rename_file(rename_schema,
+async def rename(rename_scheme: RenameQuery,
+                 db: db_dependency):
+    return await rename_file(rename_scheme,
                              db)

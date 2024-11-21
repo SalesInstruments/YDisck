@@ -1,7 +1,7 @@
 from typing import Optional, List, Dict
 from pydantic import BaseModel
 from datetime import datetime
-from schemas.token_scheme import Token
+from schemes.user_settings import UserSettings
 
 # class CommentIDs(BaseModel):
 #     private_resource: str
@@ -32,8 +32,7 @@ class ListFiles(BaseModel):
     # _embedded: EmbeddedList  # Включаем вложенный объект
 
 class ListFilesQuery(BaseModel):
-    storage_name: str
     path: str
     limit: int = 20
     offset: int = 0
-    token: Token
+    user_settings: UserSettings

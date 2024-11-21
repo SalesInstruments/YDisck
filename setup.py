@@ -16,9 +16,11 @@ setup(
         "pyodbc",
         "twisted",
         "pandas",
-        "yadisk",
+        "yadisk[async_defaults]",
         "requests",
-        "pysmb"
+        "pysmb",
+        "aiohttp",
+        "asyncpg"
     ],
     extras_require={
         "dev": [

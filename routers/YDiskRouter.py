@@ -2,10 +2,15 @@ from fastapi import (APIRouter,
                      File, 
                      UploadFile)
 
+from database import db_dependency
 
 from services.upload import upload_file
 from services.listdir import get_listdir
-from services.delite import delite_file
+from services.remove import remove_file
+from services.rename import rename_file
+
+from schemas.list_dir_scheme import ListFilesQuery
+from schemas.rename_schema import RenameQuery
 
 
 router = APIRouter(
@@ -13,14 +18,24 @@ router = APIRouter(
     tags=["YDisck"]
 ) 
 
+@router.post("/upload")
+async def upload(path: str, 
+                 file: UploadFile = File(...)):
+    return await upload_file(path, 
+                             file)
+
 @router.post("/")
-async def upload(path: str, file: UploadFile = File(...)):
-    return await upload_file(path, file)
+async def listdir(list_dir_scheme: ListFilesQuery,
+                  db: db_dependency):
+    return await get_listdir(list_dir_scheme, 
+                             db)
 
-@router.get("/")
-async def listdir(path: str, limit: int = 20, offset: int = 0):
-    return await get_listdir(path, limit, offset)
+@router.delete("/delete")
+async def remove(path: str):
+    return await remove_file(path)
 
-@router.delete("/")
-async def delete(path: str):
-    return await delite_file(path)
+@router.put("/rename")
+async def rename(rename_schema: RenameQuery,
+                      db: db_dependency):
+    return await rename_file(rename_schema,
+                             db)

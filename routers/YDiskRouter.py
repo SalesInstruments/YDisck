@@ -1,6 +1,7 @@
 from fastapi import (APIRouter,
                      File, 
-                     UploadFile)
+                     UploadFile, 
+                     Body)
 
 from database import db_dependency
 
@@ -12,6 +13,7 @@ from services.rename import rename_file
 from schemes.list_dir_scheme import ListFilesQuery
 from schemes.rename_scheme import RenameQuery
 from schemes.remove_scheme import RemoveQuery
+from schemes.upload_scheme import UploadQuery
 
 
 router = APIRouter(
@@ -20,9 +22,12 @@ router = APIRouter(
 ) 
 
 @router.post("/upload")
-async def upload(path: str, 
-                 file: UploadFile = File(...)):
-    return await upload_file(path, 
+async def upload(db: db_dependency,
+                 upload_scheme: UploadQuery = Body(...), 
+                 file: UploadFile = File(...),
+                 ):
+    return await upload_file(upload_scheme,
+                             db,
                              file)
 
 @router.post("/")

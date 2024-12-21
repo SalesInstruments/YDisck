@@ -18,8 +18,6 @@ async def get_listdir(list_dir_scheme: ListFilesQuery,
                      limit=list_dir_scheme.limit, 
                      offset=list_dir_scheme.offset)
 
-    print()
-
     items = [
         FileItem(
             name=i.name,

@@ -23,9 +23,9 @@ app = FastAPI()
 # )
 # Base.metadata.create_all(bind=engine)
 
-@app.on_event("startup")
-async def on_startup():
-    await init_models()
+# @app.on_event("startup")
+# async def on_startup():
+#     await init_models()
 
 app.include_router(router)
 

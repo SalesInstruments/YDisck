@@ -9,11 +9,13 @@ from services.upload import upload_file
 from services.listdir import get_listdir
 from services.remove import remove_file
 from services.rename import rename_file
+from services.copy import copy_file
 
 from schemes.list_dir_scheme import ListFilesQuery
 from schemes.rename_scheme import RenameQuery
 from schemes.remove_scheme import RemoveQuery
 from schemes.upload_scheme import UploadQuery
+from schemes.copy_scheme import CopyQuery
 
 
 router = APIRouter(
@@ -29,6 +31,12 @@ async def upload(db: db_dependency,
     return await upload_file(upload_scheme,
                              db,
                              file)
+
+@router.post("/copy")
+async def copy(remove_scheme:CopyQuery, 
+               db: db_dependency):
+    return await copy_file(remove_scheme,
+                           db)
 
 @router.post("/")
 async def listdir(list_dir_scheme: ListFilesQuery,
